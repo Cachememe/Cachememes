@@ -1,0 +1,90 @@
+<head>
+    <link rel="shortcut icon" href="">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
+    <meta charset="utf-8"/>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet"> -->
+</head>
+
+
+<style>
+ body {
+        width: auto;
+        max-width: 500px;
+        background: rgba(0, 0, 0, .80);
+        color: #adadad;
+        margin: 0 auto;
+        text-align: center;
+        transition: background-color 300ms linear;
+        font-family: BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    }
+      .meme_container {
+        position: relative;
+        border-bottom: 1px solid;
+        padding: 0 1px 15px 1px;
+    }
+
+    img {
+    	max-width: 500px;
+    	width: 100%
+    }
+    .text_bottom {
+    	bottom: 5%;
+    }
+    .text_top, .text_bottom {
+        left: 0;
+        font-family: Anton;
+        width: 100%;
+        min-font-size: 20px;
+        font-size: 1.5em;
+        max-font-size: 2em;
+        color: white;
+        position: absolute;
+        text-transform: uppercase;
+        z-index: 1000;
+        pointer-events: none;
+        text-shadow: -1px -1px 0 #000, 2px -1px 0 #000, -1px 2px 0 #000, 2px 2px 0 #000;
+    }
+
+</style>
+
+<body>
+	<h1>Cache Memes Example</h1>
+	<button id="start_btn"> Start </button>
+</body>
+
+<script type="text/javascript">
+	var pack = 0;
+    var scrollStart = true;
+    var start_btn = document.getElementById("start_btn")
+
+	function get_memes() {
+        start_btn.innerHTML = "Load More &#8634;"
+        scrollStart = false;
+        var i = new XMLHttpRequest;
+        i.open("GET", "/" + pack + "/get_more_memes/"), i.onload = function () {
+            if (200 === i.status) {
+                if (i.response.length > 15) {
+                    document.getElementsByTagName("body")[0].insertAdjacentHTML("beforeend", i.responseText);
+                    scrollStart = true;
+                    pack += 15;
+                }else{
+                	alert("Currently no more Posts are available")
+                }
+            }
+        };
+        i.send()}
+   document.addEventListener('scroll', function () {
+      if (scrollStart) {
+          if (document.body.scrollHeight - 1000 <= document.body.scrollTop + window.innerHeight) {
+            	get_memes()
+            }
+        }
+    });
+   
+    start_btn.onclick = function () {
+    	get_memes();
+    };
+</script>
+
+
+

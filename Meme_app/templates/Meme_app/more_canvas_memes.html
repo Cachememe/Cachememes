@@ -1,0 +1,8 @@
+{
+"memes":[
+{% for x in meme_list %}
+    {"title":"{{ x.1 }}","text1":"{{ x.2|safe }}","text2":"{{ x.3|safe }}","image":"{{x.4}}"},
+{% endfor %}
+{"title":"0","img":0,"text1":"0","text2":"0","id":0}
+]
+}
